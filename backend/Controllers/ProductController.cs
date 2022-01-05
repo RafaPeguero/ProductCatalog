@@ -26,6 +26,12 @@ namespace backend.Controllers
 
         }
 
+        [HttpGet("colors")]
+        public async Task<ActionResult<IEnumerable<Color>>> getColors()
+        {
+            return await _context.Colors.ToListAsync();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> getProduct(int id)
         {
