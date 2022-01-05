@@ -12,6 +12,6 @@ namespace backend.models
 
         [Required]
         [Column(TypeName ="varchar(60)")]
-        public int Name { get; set; }
+        public string? Name { get; set; }
     }
 }

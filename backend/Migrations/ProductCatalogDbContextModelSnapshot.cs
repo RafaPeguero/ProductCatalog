@@ -88,13 +88,13 @@ namespace ProductCatalog.Migrations
             modelBuilder.Entity("backend.models.ProductDetail", b =>
                 {
                     b.HasOne("backend.models.Color", "Color")
-                        .WithMany()
+                        .WithMany("ProductDetails")
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -102,6 +102,16 @@ namespace ProductCatalog.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("backend.models.Color", b =>
+                {
+                    b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("backend.models.Product", b =>
+                {
+                    b.Navigation("ProductDetails");
                 });
 #pragma warning restore 612, 618
         }
