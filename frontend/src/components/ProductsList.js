@@ -2,11 +2,14 @@ import DataTable from 'react-data-table-component';
 
 import React, { useEffect, useState } from 'react'
 import { productsTableColumns } from '../helpers/productsTableColumns';
-import { getProducts } from '../services/productServices';
+import { deleteProduct, getProducts } from '../services/productServices';
 import { Spinner } from 'react-bootstrap';
 import useDataTableColumns from '../hooks/useDataTableColumns';
 import InfoModal from './modals/InfoModal';
 import AddOrEditModal from './modals/AddOrEditModal';
+import { onDeleteDialog } from '../helpers/onDeleteDialog';
+import { displayCorrectlySaved } from '../helpers/displayCorrectlySaved';
+import { displayError } from '../helpers/displayError';
 
 function ProductsList () {
 
@@ -45,14 +48,15 @@ function ProductsList () {
         onEdit: (product) => {
             handleShowModaladdOrEdit(product);
         },
-        onDelete: (destinations) => {
-            // onDeleteDialog(() => {
-            //     // deleteDestinationPlace(destinations.id).then( () => {
-            //     //     displayCorrectlySaved(() => getData());
-            //     // } , () => {
-            //     //     displayError();
-            //     // })
-            // })
+        onDelete: (product) => {
+            onDeleteDialog(() => {
+                debugger;
+                deleteProduct(product.id).then( () => {
+                    displayCorrectlySaved(() => getData());
+                } , () => {
+                    displayError();
+                })
+            })
         }
     });
 
