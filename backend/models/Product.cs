@@ -17,6 +17,6 @@ namespace backend.models
         [Column(TypeName ="varchar(100)")]
         public string? Description { get; set; }
 
-        public  ICollection<ProductDetail> ProductDetails {get; set;} 
+        public  ICollection<ProductDetail>? ProductDetails {get; set;}
     }
 }

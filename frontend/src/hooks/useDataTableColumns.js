@@ -16,7 +16,7 @@ function useDataTableColumns ( {
                         <button
                             style={ { marginRight: '5px' } }
                             className='btn btn-sm btn-outline-info'
-                            onClick={ () => onEdit( row ) }
+                            onClick={ () => onView( row ) }
                         >
                             Detalle
                         </button>

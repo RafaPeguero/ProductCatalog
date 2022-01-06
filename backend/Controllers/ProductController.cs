@@ -18,12 +18,9 @@ namespace backend.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> getProducts()
         {
             return await _context.Products
-                                        .Include(p => p.ProductDetails)
+                                        .Include(p => p.ProductDetails!)
                                         .ThenInclude(pd => pd.Color)
                                         .ToListAsync();
-            // return await _context.Products.ToListAsync();
-
-
         }
 
         [HttpGet("colors")]
@@ -36,7 +33,7 @@ namespace backend.Controllers
         public async Task<ActionResult<Product>> getProduct(int id)
         {
             var product = await _context.Products.
-                                            Include(p => p.ProductDetails)
+                                            Include(p => p.ProductDetails!)
                                             .ThenInclude(pd => pd.Color)
                                             .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -77,6 +74,7 @@ namespace backend.Controllers
 
             return CreatedAtAction("getProduct", new {id = product.Id}, product);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> deleteProduct(int id)

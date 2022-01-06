@@ -5,20 +5,45 @@ import { productsTableColumns } from '../helpers/productsTableColumns';
 import { getProducts } from '../services/productServices';
 import { Spinner } from 'react-bootstrap';
 import useDataTableColumns from '../hooks/useDataTableColumns';
+import InfoModal from './modals/InfoModal';
+import AddOrEditModal from './modals/AddOrEditModal';
 
 function ProductsList () {
 
     const [products, setproducts] = useState([]);
     const [isLoading, setisLoading] = useState(false);
+    const [ModalInfo, setModalInfo] = useState({
+        show: false,
+        product: {}
+    });
+    const [addOrEditModalState, setaddOrEditModalState] = useState({
+        show:false,
+        isEdit:false,
+        product: {}
+    })
+
+    const handleShowModalInfo = (product) => {
+        setModalInfo(state => ({ ...state, show: !state.show, product: product }));
+        getData();
+    };
+
+    const handleShowModaladdOrEdit = (product) => {
+        setaddOrEditModalState(state => ({ ...state, show: !state.show, product: product, isEdit: product ? (true): (false) }));
+    };
+
+    const resetAddModal = () => {
+        setaddOrEditModalState({"addOrEditModalState.show": !addOrEditModalState.show, "product": {}, "isEdit": false});
+        getData();
+    }
 
 
     const columns = useDataTableColumns({
         columns: productsTableColumns,
-        onView: () => {
-
+        onView: (product) => {
+            handleShowModalInfo(product);
         },
-        onEdit: (products) => {
-           
+        onEdit: (product) => {
+            handleShowModaladdOrEdit(product);
         },
         onDelete: (destinations) => {
             // onDeleteDialog(() => {
@@ -54,7 +79,7 @@ function ProductsList () {
                 <div className="col-md-5 text-end">
                     <button
                         className='btn btn-sm btn-primary'
-                        onClick={ () => {  } }
+                        onClick={ () => { handleShowModaladdOrEdit() } }
                     >
                         Agregar Nuevo
                     </button>
@@ -68,6 +93,29 @@ function ProductsList () {
                 progressPending={ isLoading }
                 progressComponent={ <Spinner animation='border' /> }
             />
+
+            {
+                ModalInfo.show ? (
+                    <InfoModal  
+                        product={ModalInfo.product} 
+                        showModal={ModalInfo.show} 
+                        handleShow={handleShowModalInfo} 
+                    />
+                ) : (null)
+            }
+            {
+                addOrEditModalState.show ? 
+                (
+                    <AddOrEditModal 
+                            product={addOrEditModalState.product} 
+                            showModal={addOrEditModalState.show} 
+                            handleShow={handleShowModaladdOrEdit} 
+                            isEdit={addOrEditModalState.isEdit} 
+                            resetModal={resetAddModal}
+                    />
+                ) 
+                : (null)
+            }
         </>
     )
 }
