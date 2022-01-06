@@ -9,7 +9,7 @@ function ProductDetailFormModal({productId=0,productDetail={},showModal=false, h
 
     const [productDetailState, setproductDetailState] = useState({
         productId:0,
-        colorId:1,
+        colorId:0,
         price:0
     });
     const [isSaving, setisSaving] = useState(false);

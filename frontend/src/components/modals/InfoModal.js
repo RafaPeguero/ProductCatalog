@@ -14,7 +14,7 @@ function InfoModal({product={},showModal=false, handleShow= ()=> {}}){
         show:false
     });
 
-    const handleShowProductDetailModal = (currentId) => {
+    const handleShowProductDetailModal = () => {
         setproductDetailModal(state => ({ ...state, show: !state.show }));
     };
 
